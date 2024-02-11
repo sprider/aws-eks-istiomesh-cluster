@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: blog1-service-a
+  namespace: aws-eks-istiomesh-ns
+spec:
+  hosts:
+  - "*" 
+  gateways:
+  - blog1-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        host: blog1-service-a 
+        port:
+          number: 5000

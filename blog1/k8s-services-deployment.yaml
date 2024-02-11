@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog1-service-a
+  namespace: aws-eks-istiomesh-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog1-service-a
+  template:
+    metadata:
+      labels:
+        app: blog1-service-a
+    spec:
+      containers:
+      - name: blog1-service-a
+        image: josephvelliah/blog1-service-a:latest
+        ports:
+        - containerPort: 5000  
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog1-service-a
+  namespace: aws-eks-istiomesh-ns
+spec:
+  type: ClusterIP
+  selector:
+    app: blog1-service-a
+  ports:
+    - protocol: TCP
+      port: 5000  
+      targetPort: 5000  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog1-service-b
+  namespace: aws-eks-istiomesh-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog1-service-b
+  template:
+    metadata:
+      labels:
+        app: blog1-service-b
+    spec:
+      containers:
+      - name: blog1-service-b
+        image: josephvelliah/blog1-service-b:latest
+        ports:
+        - containerPort: 5001  
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blog1-service-b
+  namespace: aws-eks-istiomesh-ns
+spec:
+  type: ClusterIP  
+  selector:
+    app: blog1-service-b
+  ports:
+    - protocol: TCP
+      port: 5001        
+      targetPort: 5001

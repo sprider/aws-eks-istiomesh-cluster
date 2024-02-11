@@ -91,4 +91,4 @@ kubectl delete -f blog1-service-a-virtualservice.yaml
 
 kubectl delete -f k8s-services-deployment.yaml
 
-eksctl delete cluster --name aws-eks-istiomesh-cluster --region=us-east-1 --wait
+eksctl delete cluster --name aws-eks-appmesh-cluster --region=us-east-1 --wait
